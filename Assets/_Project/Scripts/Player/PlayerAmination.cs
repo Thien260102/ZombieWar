@@ -4,42 +4,17 @@ using UnityEngine;
 
 public class PlayerAmination : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
+    [SerializeField] private Animator _animator;
 
-    private State _currentState = State.None;
-
-    public void SetIdle()
+    public void SetAnimation(Vector2 inputDirection)
     {
-        if (_currentState == State.Idle)
-        {
-            return;
-        }
-        _currentState = State.Idle;
-
-        animator.SetTrigger("Idle");
+        _animator.SetFloat("MoveX", inputDirection.x);
+        _animator.SetFloat("MoveZ", inputDirection.y);
     }
 
-    public void SetRunning()
+    public void PlayShooting()
     {
-        if (_currentState == State.Running)
-        {
-            return;
-        }
-        _currentState = State.Running;
-
-        animator.SetTrigger("Run");
+        _animator.SetTrigger("Shoot");
     }
 
-    public void SetShooting()
-    {
-        animator.SetTrigger("Shoot");
-    }
-
-    public enum State
-    {
-        None = 0,
-        Idle,
-        Running,
-        Shooting
-    }
 }

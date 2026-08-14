@@ -6,28 +6,36 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] PlayerAmination _playerAmination;
+    [SerializeField] PlayerCombat _playerCombat;
 
     private JoystickController _joystickController;
     private Vector3 _inputDirection;
 
-    // Start is called before the first frame update
     void Start()
     {
+        _joystickController = FindObjectOfType<JoystickController>();
         StartCoroutine(MovingRoutine());
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _playerCombat.Fire();
+        }
+    }
 
     IEnumerator MovingRoutine()
     {
         _inputDirection = Vector3.zero;
-        Vector2 inputDirection;
+        Vector2 joystickInputDirection;
         while (true)
         {
-            inputDirection = _joystickController.InputDirection;
-            ConvertJoystickInput(inputDirection);
+            joystickInputDirection = _joystickController.InputDirection;
+            ConvertJoystickInput(joystickInputDirection);
             transform.position += 5 * Time.deltaTime * _inputDirection;
 
-            CheckRunning(inputDirection);
+            _playerAmination.SetAnimation(joystickInputDirection);
             yield return null;
         }
     }
@@ -36,34 +44,6 @@ public class PlayerController : MonoBehaviour
     {
         _inputDirection.x = input.x;
         _inputDirection.z = input.y;
-    }
-
-    private void OnEnable()
-    {
-        _joystickController = FindObjectOfType<JoystickController>();
-
-        _joystickController.OnTouchRemoved += OnTouchRemoveHandler;
-    }
-
-    private void OnDisable()
-    {
-        _joystickController.OnTouchRemoved -= OnTouchRemoveHandler;
-    }
-
-    private void CheckRunning(Vector2 inputDirection)
-    {
-        if (Mathf.Approximately(inputDirection.x, 0) && Mathf.Approximately(inputDirection.y, 0))
-        {
-            _playerAmination.SetIdle();
-            return;
-        }
-
-        _playerAmination.SetRunning();
-    }
-
-    private void OnTouchRemoveHandler()
-    {
-        _playerAmination.SetIdle();
     }
 
 }
