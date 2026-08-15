@@ -4,15 +4,16 @@
 public class WeaponData : ScriptableObject
 {
     [Header("Basic")]
-    public string weaponName;
-    public float damage = 20f;
-    public float fireRate = 5f;
-    public float range = 50f;
+    public string WeaponName;
+    public float Damage = 20f;
+    public float FireRate = 5f;
+    public float Range = 50f;
+    public float BulletSpeed;
 
     [Header("Ammo")]
-    public int magazineSize = 30;
-    public float reloadTime = 2f;
+    public int MagazineSize = 30;
+    public float ReloadTime = 2f;
 
     [Header("Recoil")]
-    public float recoilAmount = 1f;
+    public float RecoilAmount = 1f;
 }

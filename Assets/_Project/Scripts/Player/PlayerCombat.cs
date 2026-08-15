@@ -9,7 +9,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void Fire()
     {
-        //weaponController.Fire();
+        weaponController.Fire();
 
         _playerAnimation.PlayShooting();
     }
